@@ -1,0 +1,463 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  max-width: 1440px;
+  background: var(--bg-color);
+  margin: 0 auto;
+  padding: 50px 0 0px;
+  overflow: hidden;
+  font-family: "PT Sans", sans-serif;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+
+  /* линии */
+  .verticalLine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-border);
+  }
+
+  .verticalLineLeft {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .horizontalLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-border);
+    top: 45%;
+    transform: translateY(-60%);
+  }
+}
+
+.container {
+  max-width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  justify-content: flex-start;
+  overflow: hidden;
+  gap: 30px;
+
+  .header {
+    position: relative;
+    padding-left: 78px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+
+    .headerAccent {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: var(--gradient);
+    }
+
+    .title {
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 120%;
+      width: 56px;
+      color: var(--color-text);
+      margin: 0;
+    }
+  }
+}
+
+.mainContent {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+  min-height: 430px;
+  max-height: 430px;
+  margin-bottom: 20px;
+}
+
+.circleWrapper {
+  position: absolute;
+  width: 410px;
+  height: 410px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  padding-bottom: 50px;
+
+  .circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+  }
+
+  .circleInner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+}
+
+/* кружочки на круге */
+.circlePoint {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--color-text);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 99;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    border: 1px solid rgba(48, 62, 88, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  &:hover,
+  &.circlePointActive {
+    width: 56px;
+    height: 56px;
+    background: var(--bg-color);
+    border: 1px solid rgba(48, 62, 88, 0.5);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .pointNumber {
+      opacity: 1;
+    }
+  }
+
+  .pointNumber {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-text);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .pointLabel {
+    position: absolute;
+    left: calc(100% + 20px);
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &.circlePointActive {
+    .pointLabel {
+      opacity: 1;
+    }
+  }
+}
+
+.datesDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  position: relative;
+  letter-spacing: -2%;
+  pointer-events: none;
+  z-index: 1;
+
+  .dateYear {
+    font-weight: 700;
+    font-size: 150px;
+    line-height: 120px;
+    letter-spacing: -0.02em;
+
+    &Start {
+      color: var(--color-primary);
+    }
+
+    &End {
+      color: var(--color-secondary);
+    }
+  }
+}
+
+.periodNavigation {
+  position: absolute;
+  left: 80px;
+  bottom: -30px;
+
+  .periodCounter {
+    font-size: 14px;
+    color: var(--color-text);
+    margin-bottom: 10px;
+  }
+
+  .periodButtons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .periodButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(66, 86, 110, 0.5);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background: white;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: 10px;
+      height: 14px;
+      fill: none;
+      stroke: var(--color-text);
+      stroke-width: 2;
+    }
+  }
+}
+
+/* Слайдер */
+.eventsSection {
+  margin: 0;
+  margin-bottom: 40px;
+  padding: 0 80px;
+  position: relative;
+  flex-shrink: 0;
+
+  .swiperContainer {
+    position: relative;
+    overflow: hidden;
+
+    .fadeLeft,
+    .fadeRight {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 15px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .fadeLeft {
+      left: 0;
+      background: linear-gradient(90deg, var(--bg-color) 0%, transparent 100%);
+    }
+
+    .fadeRight {
+      right: 0;
+      width: 20px;
+      background: linear-gradient(270deg, var(--bg-color) 0%, transparent 100%);
+    }
+  }
+
+  .eventSlide {
+    width: 390px !important;
+    padding-right: 80px;
+    padding-left: 15px;
+  }
+
+  .eventYear {
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 120%;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+
+  .eventDescription {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    color: var(--color-text);
+  }
+}
+
+/* Пагинация для мобильных */
+.mobilePagination {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+
+  .paginationDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-text);
+    opacity: 0.4;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .paginationDotActive {
+    opacity: 1;
+  }
+
+  .paginationDot {
+    border: none;
+    padding: 0;
+  }
+}
+
+/* Адаптив */
+@media (max-width: 1024px) {
+  .wrapper {
+    height: 100dvh;
+    padding: 20px 0 0px;
+    border: none;
+  }
+  .circleWrapper,
+  .periodNavigation,
+  .horizontalLine,
+  .verticalLineLeft,
+  .verticalLine {
+    display: none;
+  }
+
+  .container {
+    max-width: 100%;
+    position: relative;
+
+    .header {
+      position: relative;
+      padding-top: 59px;
+      padding-left: 0;
+      margin-bottom: 56px;
+
+      .headerAccent {
+        display: none;
+      }
+
+      .title {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 120%;
+        width: 56px;
+        color: var(--color-text);
+        margin: 0;
+      }
+    }
+  }
+
+  .mainContent {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    min-height: 0;
+    margin-bottom: 20px;
+  }
+
+  .datesDisplay {
+    justify-content: space-between;
+    gap: 60px;
+    padding-bottom: 57px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+
+    .dateYear {
+      font-size: 56px;
+      line-height: 72px;
+    }
+  }
+
+  .eventsSection {
+    flex: 0.5;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding: 0;
+
+    .eventSlide {
+      width: 166px !important;
+      padding-right: 25px;
+    }
+
+    .eventYear {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .eventDescription {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  .periodNavigation {
+    .periodButton {
+      width: 25px;
+      height: 25px;
+    }
+
+    svg {
+      width: 6px !important;
+      height: 10px !important;
+      fill: none;
+      stroke: var(--color-text);
+      stroke-width: 2;
+    }
+  }
+
+  .mobilePagination {
+    position: relative;
+    display: flex;
+  }
+
+  .mobileArrows {
+    display: flex !important;
+    left: 0px;
+    bottom: -15px;
+    align-items: baseline;
+    gap: 5px;
+  }
+}
